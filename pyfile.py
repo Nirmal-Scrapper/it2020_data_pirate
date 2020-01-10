@@ -24,10 +24,37 @@ outputs=[
     [["set1d output1.txt","set1d output2.txt"],["set2d output1.txt","set2d output2.txt"],["set3 out -d1.txt","set3 out -d2.txt"]],
     [["set1e output1.txt","set1e output2.txt"],["set2e output1.txt","set2e output2.txt"],["set3 out -e1.txt","set3 out -e2.txt"]],   
     ]
+checker='''import os
+fil="output1.txt"
+files="checkoutput1.txt"
+file1="output2.txt"
+files1="checkoutput2.txt"
+num={}
+path=os.path.abspath("back up\password.txt")
+path=path.replace("challenge\\\\task "+str(num)+"\\\\","",1)
+print(path)
+reader=open(fil,"r")
+original=open(files,"r")
+if(reader.read()==original.read()):
+    reader1=open(file1,"r")
+    original1=open(files1,"r")
+    if(reader1.read()==original1.read()):
+        passfile=open(path,"r")
+        for j in range(num+1):
+            a=passfile.readlines(1)
+        print("key for next quest is",a[0].strip())
+    else:
+        print("not that perfect")
+else:
+    print("not even close")'''
 random.seed(time.time())
 selected = list()
 passw=[]
 for i in range(len(files)):
+    curfile="challenge/task "+str(i+1)+"/checker"+str(i+1)+".py"
+    mainwriter=checker.format(i+1)
+    program=open(curfile,"w")
+    program.write(mainwriter)
     index=random.randint(0,len(files[i])-1)
     selected.append(files[i][index])
     output = p.PdfFileWriter()
